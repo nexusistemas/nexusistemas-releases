@@ -1,12 +1,20 @@
 {
+  "cloud_download_url": "https://nexusistemas.github.io/cardapio-teste/apk/NexuSistemas-SuperApp.apk",
+  "cloud_raw_url": "https://raw.githubusercontent.com/nexusistemas/cardapio-teste/main/apk/NexuSistemas-SuperApp.apk",
   "files": [
     "web/pdv.html",
     "web/index.html",
     "web/rastreio.html",
-    "web/downloads/NexuSistemas-SuperApp.apk"
+    "web/downloads/NexuSistemas-SuperApp.apk",
+    "bin/NexuSistemas-Server.exe.gz"
   ],
+  "force_update": false,
   "publisher": "NexuSistemas Master Dev",
-  "release_notes": "Versao Inicial Oficial NexuSistemas White-Label OTA",
-  "released_at": "2026-11-06T08:18:53-03:00",
-  "version": "2.5.0"
+  "release_notes": "v5.0.3: Icone na Bandeja do Windows (System Tray), Elevacao Admin automatica, Links cardapio-teste (/cardapio, /mesa, /pdv) e Auto-Update OTA a cada 5 min com reinicio automatico.",
+  "release_timestamp": 1794006748,
+  "released_at": "2026-11-06T20:12:28-03:00",
+  "server_exe_gz": "bin/NexuSistemas-Server.exe.gz",
+  "version": "5.0.3",
+  "version_code": 73,
+  "version_name": "5.0.3"
 }
