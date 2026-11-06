@@ -1,0 +1,12 @@
+{
+  "files": [
+    "web/pdv.html",
+    "web/index.html",
+    "web/rastreio.html",
+    "web/downloads/NexuSistemas-SuperApp.apk"
+  ],
+  "publisher": "NexuSistemas Master Dev",
+  "release_notes": "Versao Inicial Oficial NexuSistemas White-Label OTA",
+  "released_at": "2026-11-06T08:18:53-03:00",
+  "version": "2.5.0"
+}
