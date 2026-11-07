@@ -4,17 +4,18 @@
   "files": [
     "web/pdv.html",
     "web/index.html",
+    "web/mesa.html",
     "web/rastreio.html",
     "web/downloads/NexuSistemas-SuperApp.apk",
     "bin/NexuSistemas-Server.exe.gz"
   ],
   "force_update": false,
   "publisher": "NexuSistemas Master Dev",
-  "release_notes": "v5.0.3: Icone na Bandeja do Windows (System Tray), Elevacao Admin automatica, Links cardapio-teste (/cardapio, /mesa, /pdv) e Auto-Update OTA a cada 5 min com reinicio automatico.",
-  "release_timestamp": 1794006748,
-  "released_at": "2026-11-06T20:12:28-03:00",
+  "release_notes": "v5.0.4: Marca padrao NexuSistemas + nexusistemas.db, limpeza de arquivos obsoletos, fix caixa de selecao de impressoras e fix cabecalho estavel no Cardapio/Mesa QR.",
+  "release_timestamp": 1794010634,
+  "released_at": "2026-11-06T21:17:14-03:00",
   "server_exe_gz": "bin/NexuSistemas-Server.exe.gz",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "version_code": 73,
-  "version_name": "5.0.3"
+  "version_name": "5.0.4"
 }
