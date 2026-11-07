@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title id="pdvPageDocTitle">SIR BEEF — Central Web de PDVs | Tecnologia NexuSistemas</title>
+  <title id="pdvPageDocTitle">NexuSistemas — Central Web de PDVs | Tecnologia NexuSistemas</title>
   <link rel="icon" id="dynamicFaviconLink" type="image/png" href="/assets/nexus/nexus-icon.png" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
@@ -567,8 +567,8 @@
 <!-- TELA DE LOGIN OBRIGATÓRIO DA CENTRAL DE PDVs WEB -->
 <div id="pdvLoginOverlay" style="position:fixed;inset:0;background:radial-gradient(circle at top, #1d180c 0%, #09090c 70%);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;">
   <div style="background:var(--panel);border:2px solid var(--gold);border-radius:20px;max-width:440px;width:100%;padding:28px 24px 20px;box-shadow:0 24px 60px rgba(0,0,0,0.9);text-align:center;">
-    <img id="pdvLoginBrandLogo" src="/assets/logos/SIR BEEF 2.png" alt="Logo Cliente" style="width:78px;height:78px;object-fit:contain;background:transparent;margin-bottom:10px;border-radius:12px;" onerror="this.src='/assets/nexus/nexus-icon.png'" />
-    <div id="pdvLoginBrandTitle" style="font-family:'Bayformance',sans-serif;font-size:28px;color:var(--gold-light);letter-spacing:1.5px;">SIR BEEF • ACESSO PDV</div>
+    <img id="pdvLoginBrandLogo" src="/assets/nexus/nexus-icon.png" alt="Logo Cliente" style="width:78px;height:78px;object-fit:contain;background:transparent;margin-bottom:10px;border-radius:12px;" onerror="this.onerror=null;this.style.display='none'" />
+    <div id="pdvLoginBrandTitle" style="font-family:'Bayformance',sans-serif;font-size:28px;color:var(--gold-light);letter-spacing:1.5px;">NEXUSISTEMAS • ACESSO PDV</div>
     <div id="pdvLoginBrandSubtitle" style="font-size:12px;color:var(--muted);margin-bottom:18px;">Identifique-se para acessar o Caixa Geral, Expedição e Gestão</div>
 
     <div id="pdvLoginKickWarning" style="display:none;background:rgba(239,68,68,0.2);border:1.5px solid var(--red);border-radius:10px;padding:10px 12px;margin-bottom:14px;color:#fca5a5;font-size:12.5px;font-weight:700;text-align:left;line-height:1.4;"></div>
@@ -648,10 +648,10 @@
 
 <header id="mainPdvHeader">
   <div class="brand">
-    <img id="pdvHeaderBrandLogo" src="/assets/logos/SIR BEEF 2.png" alt="Logo Cliente" style="background:transparent;object-fit:contain;" onerror="this.src='/assets/nexus/nexus-icon.png'" />
+    <img id="pdvHeaderBrandLogo" src="/assets/nexus/nexus-icon.png" alt="Logo Cliente" style="background:transparent;object-fit:contain;" onerror="this.onerror=null;this.style.display='none'" />
     <div>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-        <div class="brand-title" id="pdvHeaderBrandTitle">SIR BEEF • CENTRAL DE PDVs WEB</div>
+        <div class="brand-title" id="pdvHeaderBrandTitle">NEXUSISTEMAS • CENTRAL DE PDVs WEB</div>
         <img src="/assets/nexus/nexus-text.png" alt="NexuSistemas" title="Tecnologia NexuSistemas" style="height:20px;width:auto;object-fit:contain;background:transparent;opacity:0.92;" onerror="this.style.display='none'" />
         <span id="pdvHeaderLicenseDaysBadge" onclick="promptClientLicenseDetailsOrRenew()" style="display:inline-flex;align-items:center;gap:5px;background:rgba(34,197,94,0.16);border:1.5px solid var(--green);color:#86efac;padding:3px 10px;border-radius:999px;font-weight:900;font-size:11.5px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.4);" title="Clique para ver a validade do plano ou ativar uma nova Chave de Licença NexuSistemas">🔑 Plano: Carregando...</span>
       </div>
@@ -11069,26 +11069,41 @@
         categoryPrinterRoutes = pData.routes || [];
         detectedPrintersList = pData.detected_printers || detectedPrintersList;
         remotePrinterPCs = pData.remote_pcs || remotePrinterPCs;
-        renderPrintersAndRoutesView();
+        renderPrintersAndRoutesView(true);
       }
     } catch (e) {
       hidePdvLoading();
     }
   }
 
-  function renderPrintersAndRoutesView() {
-    renderDetectedPrintersTwoPcsPanel();
-
+  function renderPrintersAndRoutesView(forceRender = false) {
     const stGrid = document.getElementById('printerStationsListBox') || document.getElementById('printerStationsGrid');
     const rtList = document.getElementById('categoryPrinterRoutesBox') || document.getElementById('categoryRoutesList');
     const spoolerBox = document.getElementById('adminSectorSpoolerBox');
     if (!stGrid || !rtList) return;
 
-    // Evita re-renderizar inputs de impressora enquanto o ADM está digitando o nome
+    // Evita fechar caixas de seleção (<select>) ou perder foco de <input> durante atualização em segundo plano (loadAllData)
     const activeEl = document.activeElement;
-    if (activeEl && activeEl.id && activeEl.id.startsWith('prnInp-')) {
+    if (!forceRender && activeEl) {
+      const isInsidePrintersTab = stGrid.contains(activeEl) || rtList.contains(activeEl) || (activeEl.id && (activeEl.id.startsWith('prnInp-') || activeEl.id.startsWith('catRouteSel-')));
+      if (isInsidePrintersTab || activeEl.tagName === 'SELECT') {
+        return;
+      }
+    }
+
+    const currentPrintersFp = JSON.stringify({
+      stations: printerStations || [],
+      routes: categoryPrinterRoutes || [],
+      detected: detectedPrintersList || [],
+      remotePCs: remotePrinterPCs || [],
+      showUnlinked: !!showUnlinkedDefaultPrinterSectors
+    });
+    if (!forceRender && window.__lastPrintersViewFingerprint === currentPrintersFp && stGrid.children.length > 0 && rtList.children.length > 0) {
       return;
     }
+    window.__lastPrintersViewFingerprint = currentPrintersFp;
+
+    renderDetectedPrintersTwoPcsPanel();
 
     const usefulPrinters = getUsefulPrintersList();
     const totalStationsCount = (printerStations || []).length;
@@ -11104,7 +11119,7 @@
             Olhe no <strong>PASSO 1</strong> (logo acima) todas as impressoras que o sistema encontrou nos seus computadores e clique no botão dourado <strong>➕ Adicionar às Impressoras Úteis</strong> nas impressoras que você vai usar.
           </div>
           ${hiddenDefaultsCount > 0 ? `
-            <button type="button" class="btn" style="padding:5px 10px;font-size:11px;" onclick="showUnlinkedDefaultPrinterSectors=true;renderPrintersAndRoutesView();">
+            <button type="button" class="btn" style="padding:5px 10px;font-size:11px;" onclick="showUnlinkedDefaultPrinterSectors=true;renderPrintersAndRoutesView(true);">
               👁️ Mostrar setores padrão antigos (${hiddenDefaultsCount})
             </button>
           ` : ''}
@@ -11201,7 +11216,7 @@
         `;
       }).join('') + (hiddenDefaultsCount > 0 ? `
         <div style="text-align:right;margin-top:4px;">
-          <button type="button" class="btn" style="padding:4px 9px;font-size:10.5px;color:var(--muted);" onclick="showUnlinkedDefaultPrinterSectors=!showUnlinkedDefaultPrinterSectors;renderPrintersAndRoutesView();">
+          <button type="button" class="btn" style="padding:4px 9px;font-size:10.5px;color:var(--muted);" onclick="showUnlinkedDefaultPrinterSectors=!showUnlinkedDefaultPrinterSectors;renderPrintersAndRoutesView(true);">
             ${showUnlinkedDefaultPrinterSectors ? '🙈 Ocultar setores padrão sem impressora' : `👁️ Mostrar setores padrão antigos (${hiddenDefaultsCount})`}
           </button>
         </div>
@@ -11360,7 +11375,8 @@
         const pData = await res.json();
         printerStations = pData.stations || [];
         categoryPrinterRoutes = pData.routes || [];
-        renderPrintersAndRoutesView();
+        if (document.activeElement) document.activeElement.blur();
+        renderPrintersAndRoutesView(true);
       }
     } catch (e) {
       hidePdvLoading();
@@ -11401,7 +11417,7 @@
         categoryPrinterRoutes = pData.routes || categoryPrinterRoutes;
         detectedPrintersList = pData.detected_printers || [];
         remotePrinterPCs = pData.remote_pcs || [];
-        renderPrintersAndRoutesView();
+        renderPrintersAndRoutesView(true);
       }
     } catch (e) {
       hidePdvLoading();
@@ -11460,7 +11476,7 @@
         detectedPrintersList = pData.detected_printers || detectedPrintersList;
         remotePrinterPCs = pData.remote_pcs || remotePrinterPCs;
         if (document.activeElement) document.activeElement.blur();
-        renderPrintersAndRoutesView();
+        renderPrintersAndRoutesView(true);
       }
     } catch (e) {
       if (!silentMode) hidePdvLoading();
@@ -11743,7 +11759,7 @@
         const pData = await res.json();
         printerStations = pData.stations || [];
         categoryPrinterRoutes = pData.routes || [];
-        renderPrintersAndRoutesView();
+        renderPrintersAndRoutesView(true);
       } else {
         const err = await res.json();
         alert(err.error || 'Erro ao excluir setor.');
@@ -11875,7 +11891,7 @@
         printerStations = pData.stations || [];
         categoryPrinterRoutes = pData.routes || [];
         document.getElementById('printerSectorFormModal').style.display = 'none';
-        renderPrintersAndRoutesView();
+        renderPrintersAndRoutesView(true);
       }
     } catch (e) {
       hidePdvLoading();
@@ -11905,7 +11921,8 @@
         const pData = await res.json();
         printerStations = pData.stations || [];
         categoryPrinterRoutes = pData.routes || [];
-        renderPrintersAndRoutesView();
+        if (document.activeElement) document.activeElement.blur();
+        renderPrintersAndRoutesView(true);
       }
     } catch (e) {
       hidePdvLoading();
@@ -15223,9 +15240,9 @@
   // 10. MOTOR WHITE-LABEL, CARTÕES DINÂMICOS DO CAIXA, WEBSOCKET & SUPER ADMIN (NEXUSISTEMAS)
   // =========================================================================
   window.systemBrandingConfig = {
-    client_slug: 'sirbeef',
-    client_name: 'SIR BEEF',
-    client_subtitle: 'HAMBURGUERIA & BOUTIQUE DE CARNES',
+    client_slug: 'nexusistemas',
+    client_name: 'NexuSistemas',
+    client_subtitle: 'PDV, CAIXA, GARÇOM, COZINHA E DELIVERY',
     client_logo_base64: '',
     primary_color: '#d4af37',
     secondary_color: '#f3e5ab',
@@ -15359,6 +15376,28 @@
     await activateLicenseKeyDirect(typedKey.trim());
   }
 
+  function resolvePdvAssetUrl(rawUrl) {
+    const s = String(rawUrl || '').trim();
+    if (!s) return '';
+    if (s.startsWith('data:') || s.startsWith('http://') || s.startsWith('https://')) return s;
+    const cleanRel = s.startsWith('/') ? s : ('/' + s);
+    if (window.location.hostname.toLowerCase().includes('github.io')) {
+      const parts = window.location.pathname.split('/').filter(Boolean);
+      const firstSeg = parts[0] || '';
+      const repoPrefix = (firstSeg && !['pdv', 'cardapio', 'mesa', 'rastreio', 'index.html', 'pdv.html'].includes(firstSeg.toLowerCase()))
+        ? ('/' + firstSeg)
+        : '/cardapio-teste';
+      if (cleanRel.startsWith('/assets/nexus/') || cleanRel === '/favicon.ico') {
+        return repoPrefix + cleanRel;
+      }
+      if (window.__NEXUS_ACTIVE_TUNNEL_BASE__) {
+        return String(window.__NEXUS_ACTIVE_TUNNEL_BASE__).replace(/\/$/, '') + cleanRel;
+      }
+      return repoPrefix + cleanRel;
+    }
+    return cleanRel;
+  }
+
   function applySystemBrandingToDOM(cfg) {
     if (!cfg) return;
     const root = document.documentElement;
@@ -15368,7 +15407,8 @@
     if (cfg.panel_color) root.style.setProperty('--panel', cfg.panel_color);
     if (cfg.card_color) root.style.setProperty('--card', cfg.card_color);
 
-    const clientName = cfg.client_name || cfg.company_name || 'SIR BEEF';
+    const rawName = String(cfg.client_name || cfg.company_name || 'NexuSistemas').trim();
+    const clientName = (!rawName || rawName.toUpperCase() === 'SIR BEEF' || rawName.toUpperCase() === 'SIRBEEF') ? 'NexuSistemas' : rawName;
     const clientSub = cfg.client_subtitle || 'PDV, CAIXA, GARÇOM, COZINHA E DELIVERY';
     document.title = `${clientName} — Central Unificada | Tecnologia NexuSistemas`;
 
@@ -15381,12 +15421,23 @@
       loginTitle.textContent = `ACESSO RESTRITO AO PDV — ${clientName}`;
     }
 
-    const rawLogo = cfg.client_logo_base64 || cfg.company_logo || cfg.logo_url || '';
-    const logoSrc = rawLogo ? rawLogo : '/assets/nexus/nexus-icon.png';
+    const rawLogo = String(cfg.client_logo_base64 || cfg.company_logo || cfg.logo_url || '').trim();
+    const cleanLogo = (!rawLogo || rawLogo.toUpperCase().includes('SIR BEEF') || rawLogo.toUpperCase().includes('SIRBEEF'))
+      ? '/assets/nexus/nexus-icon.png'
+      : rawLogo;
+    const logoSrc = cleanLogo.startsWith('data:') ? cleanLogo : resolvePdvAssetUrl(cleanLogo);
     const hdrLogo = document.getElementById('pdvHeaderBrandLogo');
-    if (hdrLogo) hdrLogo.src = logoSrc;
+    if (hdrLogo && logoSrc && hdrLogo.getAttribute('data-loaded-src') !== logoSrc) {
+      hdrLogo.setAttribute('data-loaded-src', logoSrc);
+      hdrLogo.style.display = 'block';
+      hdrLogo.src = logoSrc;
+    }
     const loginLogo = document.getElementById('pdvLoginBrandLogo');
-    if (loginLogo) loginLogo.src = logoSrc;
+    if (loginLogo && logoSrc && loginLogo.getAttribute('data-loaded-src') !== logoSrc) {
+      loginLogo.setAttribute('data-loaded-src', logoSrc);
+      loginLogo.style.display = 'block';
+      loginLogo.src = logoSrc;
+    }
 
     const menuLink = document.getElementById('navClientMenuLink');
     if (menuLink && cfg.delivery_menu_url) {
@@ -15784,9 +15835,13 @@
     const setVal = (id, v) => { const el = document.getElementById(id); if (el && v !== undefined && v !== null) el.value = v; };
     const setChk = (id, v) => { const el = document.getElementById(id); if (el) el.checked = v !== false; };
 
-    const clientName = cfg.client_name || cfg.company_name || 'SIR BEEF';
-    const clientSub = cfg.client_subtitle || 'Hamburgueria & Boutique das Carnes';
-    const logoVal = cfg.client_logo_base64 || cfg.company_logo || '/assets/logos/SIR BEEF 2.png';
+    const rawClientName = String(cfg.client_name || cfg.company_name || 'NexuSistemas').trim();
+    const clientName = (!rawClientName || rawClientName.toUpperCase() === 'SIR BEEF' || rawClientName.toUpperCase() === 'SIRBEEF') ? 'NexuSistemas' : rawClientName;
+    const clientSub = cfg.client_subtitle || 'PDV, CAIXA, GARÇOM, COZINHA E DELIVERY';
+    const rawLogoVal = String(cfg.client_logo_base64 || cfg.company_logo || '/assets/nexus/nexus-icon.png').trim();
+    const logoVal = (!rawLogoVal || rawLogoVal.toUpperCase().includes('SIR BEEF') || rawLogoVal.toUpperCase().includes('SIRBEEF'))
+      ? '/assets/nexus/nexus-icon.png'
+      : rawLogoVal;
 
     setVal('saQuickClientName', clientName);
     setVal('saBrandClientName', clientName);
@@ -16018,8 +16073,8 @@
     const owner = (document.getElementById('saGhOwner')?.value || 'nexusistemas').trim().toLowerCase();
     const repo = (document.getElementById('saGhRepoName')?.value || 'cardapio-teste').trim().toLowerCase();
     const prefix = (document.getElementById('saGhTokenPrefix')?.value || 'TESTE').trim().toUpperCase();
-    const cName = (document.getElementById('saBrandClientName')?.value || document.getElementById('saQuickClientName')?.value || 'SIR BEEF').trim();
-    const logoVal = (document.getElementById('saBrandLogoInput')?.value || document.getElementById('saQuickLogoUrl')?.value || '/assets/logos/SIR BEEF 2.png').trim();
+    const cName = (document.getElementById('saBrandClientName')?.value || document.getElementById('saQuickClientName')?.value || 'NexuSistemas').trim();
+    const logoVal = (document.getElementById('saBrandLogoInput')?.value || document.getElementById('saQuickLogoUrl')?.value || '/assets/nexus/nexus-icon.png').trim();
 
     const cards = Array.isArray(superAdminCashierCardsDraft) ? superAdminCashierCardsDraft : [];
     const findCardEnabled = (targetSec, fallbackVal) => {
