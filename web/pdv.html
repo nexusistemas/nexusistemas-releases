@@ -3720,10 +3720,10 @@
     </div>
 
     <!-- Banner de Versão e IP da Rede Local -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
       <div style="background:#0d0d14;border:1px solid var(--gold);border-radius:10px;padding:10px;text-align:center;">
         <div style="font-size:11px;color:var(--muted);text-transform:uppercase;">Versão Oficial APK</div>
-        <div style="font-size:18px;font-weight:900;color:var(--gold-light);margin-top:2px;" id="teamApkVerLabel">v4.8.0 (Build #60)</div>
+        <div style="font-size:18px;font-weight:900;color:var(--gold-light);margin-top:2px;" id="teamApkVerLabel">v5.0.5 (Build #74)</div>
       </div>
       <div style="background:#0d0d14;border:1px solid #22c55e;border-radius:10px;padding:10px;text-align:center;">
         <div style="font-size:11px;color:var(--muted);text-transform:uppercase;">IP Local do Servidor (LAN)</div>
@@ -3735,6 +3735,16 @@
       </div>
     </div>
 
+    <!-- Seletor de Modo do QR Code / Link (Universal Nuvem 4G+WiFi vs Rede Local LAN) -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+      <button type="button" class="btn active" id="btnTeamApkModeCloud" onclick="setTeamApkQrMode('cloud')" style="justify-content:center;padding:10px;font-size:12.5px;font-weight:900;border-width:2px;">
+        ☁️ QR / Link Universal (Wi-Fi + 4G Nuvem)
+      </button>
+      <button type="button" class="btn" id="btnTeamApkModeLan" onclick="setTeamApkQrMode('lan')" style="justify-content:center;padding:10px;font-size:12.5px;font-weight:900;border-width:2px;">
+        🏠 QR / Link Rede Local (Wi-Fi LAN)
+      </button>
+    </div>
+
     <!-- QR Code Dinâmico Grande + Instruções -->
     <div style="display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:center;background:#101018;border:1.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px;">
       <div style="background:#ffffff;border:4px solid var(--gold);border-radius:14px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:220px;">
@@ -3743,21 +3753,21 @@
       </div>
 
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <img src="/assets/nexus/nexus-full.png" alt="NexuSistemas" style="height:30px;object-fit:contain;background:transparent;" onerror="this.style.display='none'" />
-          <span class="badge" style="background:#16a34a;color:#fff;font-size:11px;padding:4px 9px;">⚡ Download Direto via Wi-Fi Local</span>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <img src="/assets/nexus/nexus-full.png" alt="NexuSistemas" style="height:28px;object-fit:contain;background:transparent;" onerror="this.style.display='none'" />
+          <span class="badge" id="teamApkModeBadgeLabel" style="background:#0284c7;color:#fff;font-size:11px;padding:4px 9px;">☁️ Download Universal (Wi-Fi ou 4G)</span>
         </div>
 
         <div style="font-size:12.5px;color:#d1d5db;line-height:1.45;">
-          <strong>1.</strong> Conecte o celular/tablet no <strong>mesmo Wi-Fi</strong> da loja.<br/>
-          <strong>2.</strong> Escaneie o QR Code ao lado ou acesse o link direto abaixo.<br/>
-          <strong>3.</strong> Se o app já estiver instalado nos celulares da equipe, clique no botão <strong>Forçar Alerta de Atualização (WebSocket)</strong> abaixo para abrir o instalador remotamente!
+          <strong>1.</strong> Escaneie o QR Code ao lado (funciona no <strong>Wi-Fi ou 4G</strong> sem erro de conexão).<br/>
+          <strong>2.</strong> Ou clique nos botões abaixo para baixar diretamente.<br/>
+          <strong>3.</strong> Se o app já estiver instalado nos celulares da equipe, clique em <strong>Forçar Alerta de Atualização (WebSocket)</strong> abaixo!
         </div>
 
         <div style="background:#09090d;border:1px solid var(--gold);border-radius:8px;padding:8px 10px;">
-          <div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;margin-bottom:3px;">🔗 Link Direto sem Cache (LAN IP + Timestamp):</div>
-          <a id="teamApkDirectUrlAnchor" href="/NexuSistemas-SuperApp.apk" target="_blank" style="font-family:monospace;font-size:12.5px;font-weight:800;color:var(--gold-light);word-break:break-all;text-decoration:underline;">
-            http://localhost:8080/NexuSistemas-SuperApp.apk
+          <div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;margin-bottom:3px;" id="teamApkDirectUrlTitle">🔗 Link Direto sem Cache (Universal Nuvem + Anti-Cache):</div>
+          <a id="teamApkDirectUrlAnchor" href="/NexuSistemas-SuperApp.apk" target="_blank" style="font-family:monospace;font-size:12px;font-weight:800;color:var(--gold-light);word-break:break-all;text-decoration:underline;">
+            https://raw.githubusercontent.com/nexusistemas/nexusistemas-releases/main/apk/NexuSistemas-SuperApp.apk
           </a>
         </div>
 
@@ -3765,7 +3775,7 @@
           <button type="button" class="btn btn-gold" onclick="copyTeamApkDirectLink()" style="justify-content:center;padding:10px;font-size:12.5px;font-weight:900;">
             📋 Copiar Link do APK
           </button>
-          <a id="teamApkDirectDownloadBtn" href="/NexuSistemas-SuperApp.apk" class="btn btn-blue" style="justify-content:center;padding:10px;font-size:12.5px;font-weight:900;text-align:center;">
+          <a id="teamApkDirectDownloadBtn" href="/NexuSistemas-SuperApp.apk" target="_blank" class="btn btn-blue" style="justify-content:center;padding:10px;font-size:12.5px;font-weight:900;text-align:center;">
             ⬇️ Baixar APK Neste PC/Celular
           </a>
         </div>
@@ -15666,16 +15676,24 @@
   }
 
   // =========================================================================
-  // CENTRAL DO SUPERAPP ANDROID — MODAL APK EQUIPE, QR CODE LAN & AUTO-UPDATE
+  // CENTRAL DO SUPERAPP ANDROID — MODAL APK EQUIPE, QR CODE LAN/CLOUD & AUTO-UPDATE
   // =========================================================================
+  let currentTeamApkQrMode = 'cloud'; // 'cloud' (Universal Wi-Fi + 4G) ou 'lan' (Rede Local)
   let latestTeamApkVersionInfo = {
-    version: '5.0.3',
-    version_name: '5.0.3',
-    version_code: 73,
+    version: '5.0.5',
+    version_name: '5.0.5',
+    version_code: 74,
     apk_timestamp: Math.floor(Date.now() / 1000),
     lan_ip: window.location.host || 'localhost:8080',
-    download_url: `${window.location.origin}/NexuSistemas-SuperApp.apk?t=${Math.floor(Date.now() / 1000)}`
+    download_url: `${window.location.origin}/NexuSistemas-SuperApp.apk?t=${Math.floor(Date.now() / 1000)}`,
+    cloud_download_url: `https://raw.githubusercontent.com/nexusistemas/cardapio-teste/main/apk/NexuSistemas-SuperApp.apk?t=${Math.floor(Date.now() / 1000)}`,
+    cloud_raw_url: `https://raw.githubusercontent.com/nexusistemas/nexusistemas-releases/main/apk/NexuSistemas-SuperApp.apk?t=${Math.floor(Date.now() / 1000)}`
   };
+
+  function setTeamApkQrMode(mode) {
+    currentTeamApkQrMode = (mode === 'lan') ? 'lan' : 'cloud';
+    renderTeamApkModalUI(latestTeamApkVersionInfo);
+  }
 
   async function syncHeaderApkTeamVersionBadge(prefetchedData) {
     try {
@@ -15688,24 +15706,57 @@
       }
       if (!data) return;
       latestTeamApkVersionInfo = Object.assign({}, latestTeamApkVersionInfo, data);
-      const verStr = String(data.version || data.version_name || '5.0.3').trim();
+      const verStr = String(data.version || data.version_name || '5.0.5').trim();
       const shortVer = verStr.split('.').slice(0, 2).join('.') || '5.0';
       const btn = document.getElementById('navApkTeamBtn');
       if (btn) {
         btn.innerHTML = `📱 APK Equipe (v${shortVer})`;
-        btn.title = `Abrir Central do SuperApp Android — NexuSistemas-SuperApp.apk v${verStr} (Build #${data.base_version_code || data.version_code || 73})`;
+        btn.title = `Abrir Central do SuperApp Android — NexuSistemas-SuperApp.apk v${verStr} (Build #${data.base_version_code || data.version_code || 74})`;
       }
     } catch (e) {}
   }
 
   function renderTeamApkModalUI(info) {
     const d = info || latestTeamApkVersionInfo || {};
-    const verName = d.version || d.version_name || '5.0.3';
-    const verCode = d.base_version_code || d.version_code || 73;
+    const verName = d.version || d.version_name || '5.0.5';
+    const verCode = d.base_version_code || d.version_code || 74;
     const lanIp = d.lan_ip || window.location.host || 'localhost:8080';
     const ts = d.apk_timestamp || Math.floor(Date.now() / 1000);
-    const dlUrl = d.download_url || `http://${lanIp}/NexuSistemas-SuperApp.apk?t=${ts}`;
-    const sizeMb = d.file_size_bytes ? (Number(d.file_size_bytes) / (1024 * 1024)).toFixed(2) + ' MB' : 'Pronto p/ Download';
+    const lanUrl = d.lan_download_url || d.download_url || `http://${lanIp}/NexuSistemas-SuperApp.apk?t=${ts}`;
+    const cloudUrl = d.cloud_raw_url || d.cloud_download_url || `https://raw.githubusercontent.com/nexusistemas/nexusistemas-releases/main/apk/NexuSistemas-SuperApp.apk?t=${ts}`;
+    const isRemoteHost = /github\.io|trycloudflare\.com/i.test(window.location.hostname || '');
+    const activeUrl = (currentTeamApkQrMode === 'lan' && !isRemoteHost) ? lanUrl : cloudUrl;
+    const sizeMb = d.file_size_bytes ? (Number(d.file_size_bytes) / (1024 * 1024)).toFixed(2) + ' MB' : '5.90 MB';
+
+    const btnCloud = document.getElementById('btnTeamApkModeCloud');
+    const btnLan = document.getElementById('btnTeamApkModeLan');
+    if (btnCloud && btnLan) {
+      if (currentTeamApkQrMode === 'lan' && !isRemoteHost) {
+        btnLan.classList.add('active');
+        btnCloud.classList.remove('active');
+      } else {
+        btnCloud.classList.add('active');
+        btnLan.classList.remove('active');
+      }
+    }
+
+    const badgeEl = document.getElementById('teamApkModeBadgeLabel');
+    if (badgeEl) {
+      if (currentTeamApkQrMode === 'lan' && !isRemoteHost) {
+        badgeEl.style.background = '#16a34a';
+        badgeEl.textContent = '⚡ Download Direto via Wi-Fi Local (LAN)';
+      } else {
+        badgeEl.style.background = '#0284c7';
+        badgeEl.textContent = '☁️ Download Universal (Wi-Fi ou 4G Nuvem)';
+      }
+    }
+
+    const urlTitleEl = document.getElementById('teamApkDirectUrlTitle');
+    if (urlTitleEl) {
+      urlTitleEl.textContent = (currentTeamApkQrMode === 'lan' && !isRemoteHost)
+        ? '🔗 Link Direto sem Cache (LAN IP + Timestamp):'
+        : '🔗 Link Direto Universal (Wi-Fi + 4G Nuvem sem Cache):';
+    }
 
     const verEl = document.getElementById('teamApkVerLabel');
     if (verEl) verEl.textContent = `v${verName} (Build #${verCode})`;
@@ -15718,13 +15769,13 @@
 
     const urlAnchor = document.getElementById('teamApkDirectUrlAnchor');
     if (urlAnchor) {
-      urlAnchor.href = dlUrl;
-      urlAnchor.textContent = dlUrl;
+      urlAnchor.href = activeUrl;
+      urlAnchor.textContent = activeUrl;
     }
 
     const dlBtn = document.getElementById('teamApkDirectDownloadBtn');
     if (dlBtn) {
-      dlBtn.href = `/NexuSistemas-SuperApp.apk?t=${ts}`;
+      dlBtn.href = isRemoteHost ? cloudUrl : ((currentTeamApkQrMode === 'lan') ? `/NexuSistemas-SuperApp.apk?t=${ts}` : cloudUrl);
     }
 
     const qrBox = document.getElementById('teamApkQrCodeCanvas');
@@ -15732,7 +15783,7 @@
       qrBox.innerHTML = '';
       if (typeof QRCode !== 'undefined') {
         new QRCode(qrBox, {
-          text: dlUrl,
+          text: activeUrl,
           width: 190,
           height: 190,
           colorDark: '#000000',
@@ -15740,7 +15791,7 @@
           correctLevel: QRCode.CorrectLevel.M
         });
       } else {
-        qrBox.innerHTML = `<div style="font-size:12px;color:#111;padding:12px;text-align:center;">Acesse:<br><strong>${dlUrl}</strong></div>`;
+        qrBox.innerHTML = `<div style="font-size:12px;color:#111;padding:12px;text-align:center;">Acesse:<br><strong>${activeUrl}</strong></div>`;
       }
     }
   }
@@ -15756,8 +15807,9 @@
   }
 
   async function copyTeamApkDirectLink() {
-    const url = (latestTeamApkVersionInfo && latestTeamApkVersionInfo.download_url)
-      || document.getElementById('teamApkDirectUrlAnchor')?.href
+    const url = document.getElementById('teamApkDirectUrlAnchor')?.href
+      || (latestTeamApkVersionInfo && latestTeamApkVersionInfo.cloud_raw_url)
+      || (latestTeamApkVersionInfo && latestTeamApkVersionInfo.download_url)
       || `${window.location.origin}/NexuSistemas-SuperApp.apk`;
     try {
       await navigator.clipboard.writeText(url);
