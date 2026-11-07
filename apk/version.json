@@ -1,6 +1,6 @@
 {
-  "cloud_download_url": "https://raw.githubusercontent.com/nexusistemas/cardapio-teste/main/apk/NexuSistemas-SuperApp.apk?t=1793989987",
-  "cloud_raw_url": "https://raw.githubusercontent.com/nexusistemas/nexusistemas-releases/main/apk/NexuSistemas-SuperApp.apk?t=1793989987",
+  "cloud_download_url": "https://raw.githubusercontent.com/nexusistemas/cardapio-teste/main/apk/NexuSistemas-SuperApp.apk?t=1794012844",
+  "cloud_raw_url": "https://raw.githubusercontent.com/nexusistemas/nexusistemas-releases/main/apk/NexuSistemas-SuperApp.apk?t=1794012844",
   "files": [
     "web/pdv.html",
     "web/index.html",
@@ -12,8 +12,8 @@
   "force_update": false,
   "publisher": "NexuSistemas Master Dev",
   "release_notes": "v5.0.5 (Build #74): Correcao definitiva do Download e Instalacao do APK em todos os locais (Wi-Fi LAN + 4G Cloud Raw + Chrome HTTP Range + FileProvider Universal).",
-  "release_timestamp": 1794012458,
-  "released_at": "2026-11-06T21:47:38-03:00",
+  "release_timestamp": 1794012935,
+  "released_at": "2026-11-06T21:55:35-03:00",
   "server_exe_gz": "bin/NexuSistemas-Server.exe.gz",
   "version": "5.0.5",
   "version_code": 74,
