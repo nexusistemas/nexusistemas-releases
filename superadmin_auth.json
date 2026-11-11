@@ -1,0 +1,10 @@
+{
+  "username": "nexus",
+  "name": "NEXUSISTEMAS (DESENVOLVEDOR MASTER)",
+  "pin_sha256": "73db762b58b01fe367e984ba9257f0d146c87d16c6246418b207b4f19c1bcad1",
+  "encrypted_auth": "wO6SH5hztNKbOZ6e7HgyoY/EhGviove2N2+Upe2mFiW8LaTv+/OoGou2DclqGBRnTc8M2wm5ezorIb8qioa6HmhFD6DpvHX6TTlKImCQVNHjQqnGuSfar6SkLB7phZIm1vedEA6MQsNjX2l+by2HFRhxav/gPHR3J189SdR0aS1s5jH/S68z0wuh5i4=",
+  "updated_at": "2026-11-11T16:14:41-03:00",
+  "updated_at_unix": 1794424481,
+  "signature": "e0a19ef02f690ac34139e4023c76d8fb53e2cbca4246b2a9b4d5be371a8a56fa",
+  "published_by_host": "GUI"
+}
